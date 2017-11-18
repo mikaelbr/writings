@@ -23,7 +23,7 @@ We see that one thing that separates them is the variable declaration and the la
 ## FunctionDeclarations
 One way to define functions in JavaScript is in the top level or in a block, starting with the keyword `function`. It's defined as a part of the [grammar of JavaScript](https://www.ecma-international.org/ecma-262/8.0/#prod-StatementListItem). Grammar is what defines what words are legal in what position in languages.
 
-A function declaration is of type `FunctionDeclaration`, which is by grammar allowed to be child of `StatementListItem`. It's all technical and wordy. But you can think of it like this; if the line starts with the keyword `function` inside a block `{}` or at the top of your program, you probably have a function declaration.
+A function declaration is of type `FunctionDeclaration` (analogous to "part of speech" tagging, as noun, verb, etc, in natural language), which is by grammar allowed to be child of `StatementListItem`, which is a part of `StatementList`, which is a child of `Block`, and so on. It's all technical and wordy. But you can think of it like this; if the line starts with the keyword `function` inside a block `{}` or at the top of your program, you probably have a function declaration.
 
 In the grammar, it's also said that a `FunctionDeclaration` must have a name, or in grammatical terms, an `Identifier`. The exception is when doing `export default` of a function. But everywhere else, you have to name your function declarations.
 
@@ -191,7 +191,7 @@ console.log(myInferredFunction.name); // => namedFunction
 
 A couple of things to note in the example. We see functions in JavaScript are what we call first class entities. And this is something we've seen all through the examples with function expressions. We treat functions as values. In JavaScript functions are objects (but a special kind called callable objects) and as such they have properties. One of these properties is `.name`. A getter for reflecting the name of the function. Engines use `.name` in stack traces of errors, but we can access it directly.
 
-We also see that naming functions takes presecedence over inferred naming. Inferred naming is totally valid though. How ever, we aren't able to infer the name when passing anonymous functions as arguments. Which means we still have to think about anonymity and debugging. This is most notable in recent trends with using arrow functions everywhere. As arrow functions are always anonymous, unless names are inferred.
+We also see that function identifiers takes presecedence over inferred name. Inferred naming is totally valid, though. How ever, we aren't able to infer the name when passing anonymous functions as arguments. Which means we still have to think about anonymity and debugging. This is most notable in recent trends with using arrow functions everywhere. As arrow functions are always anonymous, unless names are inferred.
 
 ## Recursion and Referring Inferred Functions
 
