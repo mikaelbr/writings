@@ -1,5 +1,5 @@
 # The ways of creating functions in JavaScript
-If you've ever seen or written JavaScript, you might have noticed there are two ways of defining functions. Even people with more experience with the language can find difficult to decipher the differences. In this, first part of a blog series where we look at JavaScript syntax, we'll deep dive into the differences between function declarations and function expressions. This post will not cover the differences between different types of functions (arrow functions, async functions, normal functions, etc), but the way we define them.
+If you've ever seen or written JavaScript, you might have noticed there are two ways of defining functions. Even people with more experience with the language can find it difficult to decipher the differences. In this first part, of a blog series where we look at JavaScript syntax, we'll deep dive into the differences between function declarations and function expressions. This post will not cover the differences between different types of functions (arrow functions, async functions, normal functions, etc), but the way we define them.
 
 ## Two ways
 The two ways we have to define functions in JavaScript is declarations and as expressions:
@@ -23,11 +23,11 @@ We see that one thing that separates them is the variable declaration and the la
 ## FunctionDeclarations
 One way to define functions in JavaScript is in the top level or in a block, starting with the keyword `function`. It's defined as a part of the [grammar of JavaScript](https://www.ecma-international.org/ecma-262/8.0/#prod-StatementListItem). Grammar is what defines what words are legal in what position in languages.
 
-A function declaration is of type `FunctionDeclaration` (analogous to "part of speech" tagging, as noun, verb, etc, in natural language), which is by grammar allowed to be child of `StatementListItem` which is a part of `StatementList`, which is a child of `Block`, etc, etc. It's all technical and wordy. But you can think of it like, if the line starts with the keyword `function` inside a block `{}` or at the top of your program, you probably have a function declaration.
+A function declaration is of type `FunctionDeclaration`, which is by grammar allowed to be child of `StatementListItem`. It's all technical and wordy. But you can think of it like this; if the line starts with the keyword `function` inside a block `{}` or at the top of your program, you probably have a function declaration.
 
-In the grammar, it's also said that a `FunctionDeclaration` must have a name. Or the grammatical term `Identifier`, if you want. The exception is when doing `export default` of a function. But everywhere else, you have to name your function declarations.
+In the grammar, it's also said that a `FunctionDeclaration` must have a name, or in grammatical terms, an `Identifier`. The exception is when doing `export default` of a function. But everywhere else, you have to name your function declarations.
 
-Following those rules, we can say:
+Following these rules, we can say:
 
 ```js
 function myDeclaredFunction () { } // This is a function declaration
@@ -43,12 +43,12 @@ function () { } // This is *NOT* a valid function declaration. Nor valid JavaScr
 let func = function () { } // This is *NOT* a function declaration
 ```
 
-Specifying by the grammar may seem complicated, and it's. But trust me, for the most cases you intuitively see by glancing over the code what is a declaration. In most cases, if the line starts with `function` and not wrapped in parenthesis, it's a function declaration.
+Specifying by the grammar may seem complicated, but trust me, for the most cases you intuitively see by glancing over the code what is a declaration. In most cases, if the line starts with `function` and not wrapped in parenthesis, it's a function declaration.
 
 ### Function Expressions
 If we know that function declarations are functions defined in `StatementListItem`s starting with the keyword `function`, we know that all other functions are expressions. Functions defined in `let`, `var` and `const` bindings are expressions. Functions defined as arguments to functions are expressions. Functions defined as values on properties in objects are expressions, and in fact, functions defined in the class syntactic sugar are also expressions.
 
-We saw that function declarations almost in all cases needs have an identifier (except with default export). Is the same true for expressions? No. Function expressions _can_ be anonymous (see section `Anonymity and Naming of Expressions`). We've already seen an example of a function expression in the previous section, but we can list plenty more examples:
+We saw that function declarations almost in all cases needs to have an identifier (except with default export). Is the same true for expressions? No. Function expressions _can_ be anonymous (see section `Anonymity and Naming of Expressions`). We've already seen an example of a function expression in the previous section, but we can list plenty more examples:
 
 ```js
 let foo = function () {};
@@ -133,7 +133,7 @@ const events = [1, 2, 3, 4].filter(function (i) { // anonymous function expressi
 const events = [1, 2, 3, 4].filter(i => i % 2 === 0);
 ```
 
-But as with other conveniences, there can be a thing as too much. Anonymity can lead to harder debugging, as it obfuscates our stack traces. Nested anonymous functions can be hard to navigate through.
+But as with other conveniences, there can be a thing as too much. Anonymity can lead to difficult debugging, as it obfuscates our stack traces. Nested anonymous functions can be hard to navigate through.
 
 We can see the output of a stack trace with no names by throwing an error from within an anonymous function:
 
@@ -191,13 +191,13 @@ console.log(myInferredFunction.name); // => namedFunction
 
 A couple of things to note in the example. We see functions in JavaScript are what we call first class entities. And this is something we've seen all through the examples with function expressions. We treat functions as values. In JavaScript functions are objects (but a special kind called callable objects) and as such they have properties. One of these properties is `.name`. A getter for reflecting the name of the function. Engines use `.name` in stack traces of errors, but we can access it directly.
 
-We also see that naming functions as identifier to function expressions, takes precedence to the inference. But inferring name is totally valid. How ever, we aren't able to infer the name when passing anonymous functions as arguments. Which means we still have to think about anonymity and debugging. This is most notable in recent trends with using arrow functions everywhere. As arrow functions are always anonymous, unless names are inferred.
+We also see that naming functions takes presecedence over inferred naming. Inferred naming is totally valid though. How ever, we aren't able to infer the name when passing anonymous functions as arguments. Which means we still have to think about anonymity and debugging. This is most notable in recent trends with using arrow functions everywhere. As arrow functions are always anonymous, unless names are inferred.
 
 ## Recursion and Referring Inferred Functions
 
 While debugging is helped by inferring function names, there is a difference between inferring and proper naming. It might be more abstract, but it can in some cases create actual bugs, and be hard to smoke out. It's when using recursive functions. We can summarise recursive functions as functions invoking them self.
 
-Recursion can be a valuable tool in your programming toolchain. Dividing a problem up to subsets and solving one part at the time in a potentially infinite scale. But inferred names with function expressions can lead to problems: The variables can be overwritten from outside of the function it self:
+Recursion can be a valuable tool in your programming toolchain. Dividing a problem up to subsets and solving one part at the time in a potentially infinite scale. But inferred names on function expressions can lead to problems: The variables can be overwritten from outside of the function it self:
 
 ```js
 let fibonacci = function (num) {
@@ -212,7 +212,7 @@ console.log(fibCopy(3));
 // => Error: No, way!
 ```
 
-But if we how ever do named function expressions (or function declarations) this still works as expected:
+But if we how ever do a named function expressions (or function declarations) this still works as expected:
 
 ```js
 let fibonacci = function fibonacci (num) {
@@ -228,7 +228,7 @@ console.log(fibCopy(3));
 // (Works as expected)
 ```
 
-This is as the fibonacci identifier for the function expression in the latter example shadows the variable from outside, and refers to the function, not the variable specified in the outer scope. As such it's never overwritten.
+As the last example shows the returned recursive call inside the fibonacci expression points to the actual named function expression, not the variable it is assigned to. That means when we call fibonacci recursively it will always point correctly, even though the variable name is reassigned.
 
 This might seem contrived. But when using recursion this can actually be a legit bug. And if it happens, it may be hard to investigate.
 
