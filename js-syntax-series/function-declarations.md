@@ -1,5 +1,7 @@
-# The ways of creating functions in JavaScript
+# 8 minute learn: Creating Functions in JavaScript
 If you've ever seen or written JavaScript, you might have noticed there are two ways of defining functions. Even people with more experience with the language can find it difficult to decipher the differences. In this first part, of a blog series where we look at JavaScript syntax, we'll deep dive into the differences between function declarations and function expressions. This post will not cover the differences between different types of functions (arrow functions, async functions, normal functions, etc), but the way we define them.
+
+There’s also a video covering much of the same content. If you happen to understand Norwegian dialect.
 
 ## Two ways
 The two ways we have to define functions in JavaScript is declarations and as expressions:
@@ -228,7 +230,9 @@ console.log(fibCopy(3));
 // (Works as expected)
 ```
 
-As the last example shows the returned recursive call inside the fibonacci expression points to the actual named function expression, not the variable it is assigned to. That means when we call fibonacci recursively it will always point correctly, even though the variable name is reassigned.
+As the last example shows, the second invoked recursive call inside the fibonacci expression points to the actual named function expression, not the new destructive function we assigned further down. That means when we call fibonacci again, it points to the correct value, even though we reassigned the variabel in the outer scope.
+
+This is as when we set the name `fibonacci` as an identifier of the function, we shadow (overwrite, taking precedence) the variable from before. And as we no longer use the actual variable, it doesn't matter that we reassign the value in the outer scope. We simply reassign the variable, not what we refer to inside the `fibonacci` function.
 
 This might seem contrived. But when using recursion this can actually be a legit bug. And if it happens, it may be hard to investigate.
 
