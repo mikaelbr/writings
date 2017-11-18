@@ -83,7 +83,7 @@ Foo.prototype.foo = function foo () { };
 
 Summarized, we can say that in the positions where you can have values like strings and numbers, you have a function expression.
 
-We've seen that grammer specifies if whether we have a declaration or an expression. But are there any differences? And does it actually matter? As it turns out, in some cases it does matter. Let's dig further.
+We've seen that grammar specifies if whether we have a declaration or an expression. But are there any differences? And does it actually matter? As it turns out, in some cases it does matter. Let's dig further.
 
 ## Declarations and Hoisting
 The most notable difference, and the difference that can affect you the most, is hoisting. Function declarations are hoisted to the top of the top-level or if you have a function declaration inside a function, to the top of that function. In any case, with function declarations, you can use them above where they are declared.
@@ -96,7 +96,7 @@ function add(a, b) {
 }
 ```
 
-This is practially the same as:
+This is practically the same as:
 
 ```js
 function add(a, b) { // "hoisted" to the top in run-time
@@ -106,9 +106,9 @@ function add(a, b) { // "hoisted" to the top in run-time
 console.log(add(40, 2));
 ```
 
-Hoisting is a common thing in JavaScript, and all variable declarations are also hoisted, as we'll see soon. You might ask yourself why anyone would do this. And there can be multiple reasons. Most, like often in programming, subjective. There's been a common practise in JavaScript, for a long time, to prioritize code by importance. To the more central the code is, the higher it goes. An effect of that is that the function which describes the module the most is visible as you open a file. This relies heavily on hoisting, as all helper functions would be defined further down in the file. This practise is fading away more and more, but there are still developers preferring this approach.
+Hoisting is a common thing in JavaScript, and all variable declarations are also hoisted, as we'll see soon. You might ask yourself why anyone would do this. And there can be multiple reasons. Most, like often in programming, subjective. There's been a common practice in JavaScript, for a long time, to prioritize code by importance. To the more central the code is, the higher it goes. An effect of that is that the function which describes the module the most is visible as you open a file. This relies heavily on hoisting, as all helper functions would be defined further down in the file. This practice is fading away more and more, but there are still developers preferring this approach.
 
-Hoisting will also occur when doing variable declarations with a function expression. We won't go into all details here, but all variable declarations in JavaScript are hoisted, but the different being, variables aren't assigned. So in contrast to the previous exmple, this wouldn't work:
+Hoisting will also occur when doing variable declarations with a function expression. We won't go into all details here, but all variable declarations in JavaScript are hoisted, but the different being, variables aren't assigned. So in contrast to the previous example, this wouldn't work:
 
 ```js
 console.log(add(40, 2)); // Would cause a ReferenceError. We declare `add`, but it's undefined.
@@ -122,7 +122,7 @@ const add = function add(a, b) {
 
 ## Anonymity and Naming of Expressions
 
-As we've seen, function declarations can't be anonymous by grammer. But expressions can. And some time that can be convenient where we  use them as one-offs as an argument to functions like `map` or `filter`:
+As we've seen, function declarations can't be anonymous by grammar. But expressions can. And some time that can be convenient where we  use them as one-offs as an argument to functions like `map` or `filter`:
 
 ```js
 const events = [1, 2, 3, 4].filter(function (i) { // anonymous function expression
@@ -155,7 +155,7 @@ Will lead to something like:
 test.js:6:3
 ```
 
-As you see. It still has line and column info, but we know with sourcemaps and transpiling, source location isn't always trustworthy. With named founctions:
+As you see. It still has line and column info, but we know with source-maps and transpiling, source location isn't always trustworthy. With named functions:
 
 ```js
 try {
@@ -191,11 +191,11 @@ console.log(myInferredFunction.name); // => namedFunction
 
 A couple of things to note in the example. We see functions in JavaScript are what we call first class entities. And this is something we've seen all through the examples with function expressions. We treat functions as values. In JavaScript functions are objects (but a special kind called callable objects) and as such they have properties. One of these properties is `.name`. A getter for reflecting the name of the function. Engines use `.name` in stack traces of errors, but we can access it directly.
 
-We also see that naming functions as identifier to function expressions, takes precedence to the inferrence. But inferring name is totally valid. How ever, we aren't able to infer the name when passing anonymous functions as arguments. Which means we still have to think about anonymity and debugging. This is most notable in recent trends with using arrow functions everywhere. As arrow functions are always anonymous, unless names are inferred.
+We also see that naming functions as identifier to function expressions, takes precedence to the inference. But inferring name is totally valid. How ever, we aren't able to infer the name when passing anonymous functions as arguments. Which means we still have to think about anonymity and debugging. This is most notable in recent trends with using arrow functions everywhere. As arrow functions are always anonymous, unless names are inferred.
 
 ## Recursion and Referring Inferred Functions
 
-While debugging is helped by inferring function names, there is a difference between inferring and proper naming. It might be more abstract, but it can in some cases create actual bugs, and be hard to smoke out. It's when using recursive functions. We can summerize recursive functions as functions invoking them self.
+While debugging is helped by inferring function names, there is a difference between inferring and proper naming. It might be more abstract, but it can in some cases create actual bugs, and be hard to smoke out. It's when using recursive functions. We can summarise recursive functions as functions invoking them self.
 
 Recursion can be a valuable tool in your programming toolchain. Dividing a problem up to subsets and solving one part at the time in a potentially infinite scale. But inferred names with function expressions can lead to problems: The variables can be overwritten from outside of the function it self:
 
