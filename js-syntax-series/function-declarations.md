@@ -1,4 +1,4 @@
-# 8 minute learn: Creating Functions in JavaScript
+# 9 minute learn: Creating Functions in JavaScript
 If you've ever seen or written JavaScript, you might have noticed there are two ways of defining functions. Even people with more experience with the language can find it difficult to decipher the differences. In this first part, of a blog series where we look at JavaScript syntax, we'll deep dive into the differences between function declarations and function expressions. This post will not cover the differences between different types of functions (arrow functions, async functions, normal functions, etc), but the way we define them.
 
 There’s also a video covering much of the same content. If you happen to understand Norwegian dialect.
