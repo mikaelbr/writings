@@ -242,7 +242,105 @@ In parameter position it's called rest, in argument position, spread.
 
 ## Default Arguments
 
-## Function Invoking Default Arguments
+Traditionally, in JavaScripit you would do a similar effect to the overloading
+from the first chapter to do default arguments. Checking if an argument's
+undefined, and act accordingly. Something like
+
+```js
+function foo(a, callback) {
+  if (typeof callback === 'undefined') {
+    callback = function() {};
+  }
+
+  // do something with a and safely invoke callback
+}
+foo(42);
+```
+
+When the parameter list grow and you have several optional parameters, this
+becomes tedious. You should probably not have too many parameters, but that's a
+different discussion. Now you can use default parameters to simplify this code:
+
+```js
+function foo(a, callback = function() {}) {
+  // do something with a and safely invoke callback
+}
+foo(42);
+```
+
+You can have several default arguments, in any order. But defaults get set only
+when the argument is `undefined`. Not `null` or other falsy values, but strictly
+`undefined`.
+
+```js
+function foo(a, callback = function() {}, b) {
+  console.log(callback);
+}
+foo(42, null); //=> null
+```
+
+Default arguments doesn't have to be created inline. You can refer to variables
+defined in a outer scope. Like constants.
+
+```js
+// Some configuration
+const DEFAULT_TIMEOUT = 42;
+
+function delay(fn, time = DEFAULT_TIMEOUT) {
+  // Implementation
+}
+```
+
+Arguments are executed from left to right, meaning parameters can refer to other
+parameters to the left:
+
+```js
+function foo(a, b = a.foo) {
+  console.log(b);
+}
+foo({ foo: 42 }); //=> 42
+```
+
+In this case `a` will shadow any other defined variables defined in an outer
+scope. You could also refer to the function itself in cases you want to do
+recursion with overridable passed in function.
+
+Another useful thing to know about default arguments is you can do inline
+function invokation:
+
+```js
+const create42 = () => 42;
+function foo(a = create42()) {
+  console.log(a);
+}
+foo(); //=> 42
+```
+
+This isn't the same as invoking it outside the parameter list and refering to
+the value such, but the function `create42` is only ever invoked if an argument
+isn't passed to the function. We can prove this by doing logging a comment
+inside `create42`:
+
+```js
+function create42() {
+  console.log('invoked');
+  return 42;
+}
+function foo(a = create42()) {}
+foo(); // Logs 'invoked'
+foo(50); // Logs nothing
+```
+
+This allows you to do some fun things as creating required parameters:
+
+```js
+function required(a, fn) {
+  throw new Error(`Argument ${a} in ${fn.name} is required`);
+}
+function foo(a = required('a', foo)) {}
+foo(); // Error
+foo(42); // No Error
+```
 
 ## Conclusion
 
@@ -259,7 +357,7 @@ Explicit is almost always better than implicit. If you can explicitly define
 your parameters and with an explicit API you should do that. This means not
 relying on `arguments` variable, but using rest, and instead of overloading
 functions through arguments you should have separate functions with separate
-names being more explicit with the use case. It is how ever, cases where things
+names being more explicit with the use case. It's how ever, cases where things
 like checking argument count and argument types makes sense. When making
 functions, in any language, thin about the consumer of the function. Think about
 the invokation site. What makes more sense for using it. Optimizing for
