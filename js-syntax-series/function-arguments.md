@@ -196,8 +196,8 @@ communicating with others and talking about functions. For instance, we could
 say, the "the function has an arity of 3".
 
 Some functions we define, as seen in the previous section on magic `arguments`
-variable, have an undetermined arity. These functions are often called variadic
-functions. Functions with an arbitrary number of parameters.
+variable, have an undetermined arity. These functions are often called _variadic
+functions_. Functions with an arbitrary number of parameters.
 
 It's important to note the arity works on parameters, not arguments. Even if we
 have arguments and use the `arguments` variable, the function has a length of 0.
@@ -454,9 +454,10 @@ function log({ foo } = {}) {
 log(); //=> undefined
 ```
 
-Here log is invoked with no argument, meaning the first parameter is
+Here `log` is invoked with no argument, meaning the first parameter is
 `undefined`. This causes the default to kick in, which we've defined as an empty
-object. We can have a proper object here, with defaults:
+object. If we wanted `foo` to have a default value here, we could pass in a
+complete object:
 
 ```js
 function log({ foo } = { foo: 42 }) {
@@ -465,10 +466,11 @@ function log({ foo } = { foo: 42 }) {
 log(); //=> 42
 ```
 
-But this would mean, the default will only ever hit if the argument is
-undefined, not if we pass in an empty object without `foo`. So in the case
-above, we have a default to the parameter itself, but not the value `foo`. To do
-this, we would have to you destructuring default instead:
+This would mean, the default will only ever hit if the argument is `undefined`,
+not if we pass in an empty object without `foo`. In the code above, we have a
+default value to the parameter, but not a default to the `foo` property. To set
+default on object property level in destructuring, we would have to use
+destructuring defaults instead:
 
 ```js
 function log({ foo = 42 } = {}) {
@@ -477,8 +479,8 @@ function log({ foo = 42 } = {}) {
 log(); //=> 42
 ```
 
-So here we have a default parameter (empty object) and default value on property
-`foo` if it doesn't have any value.
+Here we have a default parameter (empty object) and default value on property
+`foo` (42) if it doesn't have any value.
 
 Read more about
 [destructuring and all possibilities in this gist](https://gist.github.com/mikaelbr/9900818).
@@ -497,8 +499,8 @@ Explicit is almost always better than implicit. If we can explicitly define our
 parameters and with an explicit API we should do that. This means not relying on
 `arguments` variable, but using rest, and instead of overloading functions
 through arguments we should have separate functions with separate names being
-more explicit with the use case. It's however, cases where things like checking
-argument count and argument types makes sense. When making functions, in any
-language, think about the consumer of the function. Think about the invocation
-site. What makes more sense for using it. Optimising for terseness and overly
-dehydrated, DRY, functions will make our code harder to understand.
+more explicit with the use case. But there are cases where we want variadic
+functions, or where counting argument length is the way to go. When making
+functions, in any language, think about the consumer of the function. Think
+about the APIs you are making and who's using them. Optimising for terseness and
+dehydrated (over DRY) functions will make our code harder to understand.
