@@ -2,10 +2,10 @@
 
 This is the third part of stand alone blog series on JavaScript syntax in
 detail. This time we'll look at function arguments and parameters. You might
-think that this is a small topic, but there's suprisingly much to say about it.
-In this post we'll cover everything from function overloading to default
-arguments and parameter destructuring. Everything you need to know about
-function arguments and then some.
+think it's a shallow topic, but it has some surprising depth to it. In this post
+we'll cover everything from function overloading to default arguments and
+parameter destructuring. Everything you need to know about function arguments
+and then some.
 
 See the previous post in the "in Detail" series:
 [Variable Declarations in Detail](https://medium.com/@mikaelbrevik/variable-declarations-in-detail-29407b4e4802)
@@ -13,8 +13,8 @@ See the previous post in the "in Detail" series:
 ## Argument or Parameter?
 
 First let's get some terms out of the way. What is the difference between
-arguments and parameters? We often use these terms interchangably. There's no
-need to destinguish between them, but we'll cover it here for completness. As
+arguments and parameters? We often use these terms interchangeably. There's no
+need to distinguish between them, but we'll cover it here for completeness. As
 with all terms it may help us relay information precisely, given that the person
 we're talking to also have the same understanding of the terms.
 
@@ -176,7 +176,7 @@ automatically populated `arguments`, we can use rest values.
 
 Instead of using the somewhat mystic `arguments` variable we can use a more
 explicit alternative. One that is a pattern in other places in the JavaScript
-langauge also: `rest`. This is a syntactic extension for collecting all tailing
+language also: `rest`. This is a syntactic extension for collecting all tailing
 values of _something_. For instance, it's used in
 [destructuring lists](https://gist.github.com/mikaelbr/9900818). For functions
 it can look like:
@@ -215,7 +215,7 @@ Like `tail` or
 `thisIsATotallyIrretatinglyLongNameForAllOtherArgumentsExceptTheFirstOne`.
 
 We can't do it the other way around. We can't collect all except the last value.
-That is illigal JavaScript syntax and would cause a syntax error.
+That is illegal JavaScript syntax and would cause a syntax error.
 
 ```js
 function logAll (...args, suffix) { }
@@ -224,7 +224,7 @@ function logAll (...args, suffix) { }
 
 While in the parameter list we do rest, spread is used in argument position.
 With the same syntax extension, we can take an `Array`-like structure and apply
-them to a function as if they where indevidual arguments.
+them to a function as if they where individual arguments.
 
 ```js
 function logAll(a, b, c, d) {
@@ -249,7 +249,7 @@ In parameter position it's called rest, in argument position, spread.
 
 ## Default Parameters
 
-Traditionally, in JavaScripit we would do a similar effect to the overloading
+Traditionally, in JavaScript we would do a similar effect to the overloading
 from the first chapter to do default parameters. Checking if an parameter's
 `undefined`, and act accordingly.
 
@@ -293,7 +293,7 @@ foo(42); //=> function
 ```
 
 Default parameters doesn't have to be created inline. We can refer to variables
-defined in a outer scopea nd use all types of expressions. Like constants.
+defined in a outer scope and use all types of expressions. Like constants.
 
 ```js
 // Some configuration
@@ -328,7 +328,7 @@ function foo(a = create42()) {
 foo(); //=> 42
 ```
 
-This isn't the same as invoking it outside the parameter list and refering to
+This isn't the same as invoking it outside the parameter list and referring to
 the value, but the function `create42` is only ever invoked if an argument isn't
 passed to the function. This is where the call time evaluation plays a part. We
 can prove this by doing logging a comment inside `create42`:
@@ -360,7 +360,7 @@ foo(); // TypeError
 foo(42); // No Error
 ```
 
-## Destructuring Paramters
+## Destructuring Parameters
 
 Variables in parameters can be treated as any other values. This means we can
 destructure the information passed as arguments. When destructuring we can do:
@@ -387,20 +387,20 @@ log({ foo: 42 });
 
 This means in many ways we can have named arguments. And named arguments can in
 many cases be preferred over regular parameter lists as they are easier to
-change and refactor. The downside is to pack/unpack objects everytime we invoke
+change and refactor. The downside is to pack/unpack objects every time we invoke
 a function.
 
 Read more about
-[destructuring and all posibilities in this gist](https://gist.github.com/mikaelbr/9900818).
+[destructuring and all possibilities in this gist](https://gist.github.com/mikaelbr/9900818).
 
 ## Conclusion
 
 The dynamic nature of JavaScript makes arguments and parameter for an
 interesting case. We can pass in what ever values we want and it's up to the
 function to handle what it. We could either fail horribly or handle it in a
-different way. It's up to us to deside what is best for the problem we're
+different way. It's up to us to decide what is best for the problem we're
 solving. In some cases this dynamic nature is an advantage of flexibility. In
-other cases it can be a footgun where it causes errors in our code. The
+other cases it can be a foot-gun where it causes errors in our code. The
 important part is knowing how it works so we can choose what approach is best.
 
 Explicit is almost always better than implicit. If we can explicitly define our
@@ -409,6 +409,6 @@ parameters and with an explicit API we should do that. This means not relying on
 through arguments we should have separate functions with separate names being
 more explicit with the use case. It's how ever, cases where things like checking
 argument count and argument types makes sense. When making functions, in any
-language, thin about the consumer of the function. Think about the invokation
-site. What makes more sense for using it. Optimizing for terseness and overly
+language, thin about the consumer of the function. Think about the invocation
+site. What makes more sense for using it. Optimising for terseness and overly
 dehydrated, DRY, functions will make our code harder to understand.
