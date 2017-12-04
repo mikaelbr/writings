@@ -35,6 +35,10 @@ add(argument1, argument2);
 Not a huge difference, but it might be helpful to know if we ever want to
 express something like "how about renaming the parameters" in a code review.
 
+In JavaScript, trailing commas are legal in arguments and parameters (`function
+fn1(a, b,) {}` and `fn1(1, 2,);`), but only in the most modern browsers as it is
+part of the newest language specifications.
+
 ## Natural Born Dynamic Arguments
 
 Function overloading is the act of defining multiple functions/methods with the
@@ -49,8 +53,8 @@ for bad, take in what ever arguments we want. Arguments in JavaScript are by
 nature dynamic, and we can pass in what ever amount of arguments we want:
 
 ```js
-function fn(arg1, arg2, arg3) {
-  console.log(arg1, arg2, arg3);
+function fn(a, b, c) {
+  console.log(a, b, c);
 }
 
 fn(); //=> undefined undefined undefined
@@ -187,7 +191,7 @@ console.log(fn.length); //=> 3
 
 on the function `fn` from the previous example, we get `3`. This is as we define
 3 parameters in the function (`a`, `b` and `c`). The function length is often
-refered to as the functions arity. This can be a handy word to know when
+referred to as the functions arity. This can be a handy word to know when
 communicating with others and talking about functions. For instance we could
 say, the "the function has an arity of 3".
 
@@ -462,9 +466,9 @@ log(); //=> 42
 ```
 
 But this would mean, the default will only ever hit if the argument is
-undefined, not if we pass in an empty object witout `foo`. So in the case above,
-we have a default to the parameter it self, but not the value `foo`. To do this,
-we would have to you destructuring default instead:
+undefined, not if we pass in an empty object without `foo`. So in the case
+above, we have a default to the parameter it self, but not the value `foo`. To
+do this, we would have to you destructuring default instead:
 
 ```js
 function log({ foo = 42 } = {}) {
