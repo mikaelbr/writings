@@ -304,8 +304,8 @@ function delay(fn, time = DEFAULT_TIMEOUT) {
 }
 ```
 
-Arguments are executed from left to right and _evaluated at call time_. Firstly,
-this means parameters can refer to other parameters to the left:
+Parameters are evaluated from left to right _at call time_. This means
+parameters can refer to other parameters to the left:
 
 ```js
 function foo(a, b = a.foo) {
