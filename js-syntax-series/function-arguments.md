@@ -7,7 +7,7 @@ In this post we'll cover everything from function overloading to default
 arguments and parameter destructuring. Everything you need to know about
 function arguments and then some.
 
-See the previous blogpost in the "in Detail" series:
+See the previous post in the "in Detail" series:
 [Variable Declarations in Detail](https://medium.com/@mikaelbrevik/variable-declarations-in-detail-29407b4e4802)
 
 ## Argument or Parameter?
