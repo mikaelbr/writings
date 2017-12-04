@@ -76,8 +76,6 @@ We could make this into a pattern if we wanted and call it something fancy, but
 essentially we have a overloaded function, as we do different actions based on
 different function signatures.
 
-## Arity Variety
-
 ## Magic Argument XXL
 
 In JavaScript there are a couple of globally defined helper variables. For
@@ -175,6 +173,42 @@ logEven(1, 2, 3, 4);
 This isn't much of a problem in practise though, for instead of the implicit
 automatically populated `arguments`, we can use rest values.
 
+## Arity Variety
+
+When talking about function arguments and parameters, we often talk about
+function length. What kind of metric is this? Is it the number of lines in the
+function body, or the length of the function name? It's neither. It's the number
+of parameters a function has. If I do
+
+```js
+function fn(a, b, c) {}
+console.log(fn.length); //=> 3
+```
+
+on the function `fn` from the previous example, we get `3`. This is as we define
+3 parameters in the function (`a`, `b` and `c`). The function length is often
+refered to as the functions arity. This can be a handy word to know when
+communicating with others and talking about functions. For instance we could
+say, the "the function has an arity of 3".
+
+Some functions we define, as seen in the previous section on magic `arguments`
+variable, have an undetermined arity. These functions are often called variadic
+functions. Functions with arbitrary number of parameters.
+
+It's important to note the arity works on parameters, not arguments. Even if we
+have arguments and use the `arguments` variable, the function has a length of 0.
+
+```js
+function logAll(/* no explicit parameters */) {
+  for (let i of arguments) console.log(i);
+}
+console.log(logAll.length); //=> 0
+```
+
+This means, if we're trying to programatically get a functions arity of variadic
+functions, we're out of luck. There are also other ways to define variadic
+functions in JavaScript. By using rest.
+
 ## All About the Rest
 
 Instead of using the somewhat mystic `arguments` variable we can use a more
@@ -199,9 +233,15 @@ logAll(1, 2, 3, 4);
 
 Here we say collect all arguments to this array `args`. And this is an actual
 `Array`. Not an `Array`-like object, but an actual `Array`. We can iterate it,
-and it has `filter` as it's attached to the Array prototype. In the example
-above we do the entire argument list, but we can cherry pick parameters from the
-start of the signature:
+and it has `filter` as it's attached to the Array prototype.
+
+Even though it looks like we have an actual parameter in the function, the
+function length is 0. This is as logAll is a variadic function, without any
+other parameters than the rest.
+
+We can have a function length on a variadic function also. In the example above
+we do the entire argument list, but we can cherry pick parameters from the start
+of the signature:
 
 ```js
 function logAll(prefix, ...args) {
@@ -210,6 +250,7 @@ function logAll(prefix, ...args) {
   }
 }
 logAll('My Prefix', 1, 2, 3, 4);
+console.log(logAll.length); //=> 1
 ```
 
 Here we say, store the first argument as parameter `prefix` and collect the rest
