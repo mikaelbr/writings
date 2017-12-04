@@ -1,10 +1,14 @@
 # Function Parameters in Detail
 
-This is the third part of independent blog posts on JavaScript syntax in detail.
-This time we'll look at function arguments. You might think that this is a small
-topic, but there's surprisingly lots to say about it. In this post we'll cover
-everything from function overloading to default arguments. Everything you need
-to know about function arguments and then some.
+This is the third part of stand alone blog series on JavaScript syntax in
+detail. This time we'll look at function arguments and parameters. You might
+think that this is a small topic, but there's suprisingly much to say about it.
+In this post we'll cover everything from function overloading to default
+arguments and parameter destructuring. Everything you need to know about
+function arguments and then some.
+
+See the previous blogpost in the "in Detail" series:
+[Variable Declarations in Detail](https://medium.com/@mikaelbrevik/variable-declarations-in-detail-29407b4e4802)
 
 ## Argument or Parameter?
 
@@ -271,6 +275,9 @@ function foo(a, callback = function() {}) {
 }
 foo(42);
 ```
+
+This works on parameter level, not arguments. So the `arguments` variable from
+before will not be populated with the default values.
 
 We can have several default parameters, in any order. But defaults get set only
 when the argument is `undefined`. Not `null` or other falsy values, but strictly
