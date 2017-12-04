@@ -76,6 +76,8 @@ We could make this into a pattern if we wanted and call it something fancy, but
 essentially we have a overloaded function, as we do different actions based on
 different function signatures.
 
+## Arity Variety
+
 ## Magic Argument XXL
 
 In JavaScript there are a couple of globally defined helper variables. For
@@ -83,7 +85,8 @@ instance in browser environment we have `window` and `document` or in Node.js we
 have `global` or `process`. There's also a variable that is automatically and
 contextually created: `arguments`. If we refer to the variable `arguments`
 inside a normal function (non-arrow function, see below) it's populated with
-data passed to the function:
+data passed to the function. This way we can create variadic functions.
+Functions that can take any number of arguments (or any arity if you will):
 
 ```js
 function logAll(/* no explicit parameters */) {
@@ -390,6 +393,48 @@ many cases be preferred over regular parameter lists as they are easier to
 change and refactor. The downside is to pack/unpack objects every time we invoke
 a function.
 
+### Destructured Defaults
+
+We can combine default parameters with destructuring. And in many cases we have
+to. Let's say we have the function `log` from above, where we destructure an
+object and unpack the value `foo`. What happens if we invoke the function as
+`log()`? We would get a nasty `TypeError: (destructured parameter) is
+undefined`. This as we try to destructure an undefined object. To fix this we
+would have to have a default for our destructured parameter:
+
+```js
+function log({ foo } = {}) {
+  console.log(foo);
+}
+log(); //=> undefined
+```
+
+Here log is invoked with no argument, meaning the first parameter is
+`undefined`. This causes the default to kick in, which we've defined as an empty
+object. We can have a proper object here, with defaults:
+
+```js
+function log({ foo } = { foo: 42 }) {
+  console.log(foo);
+}
+log(); //=> 42
+```
+
+But this would mean, the default will only ever hit if the argument is
+undefined, not if we pass in an empty object witout `foo`. So in the case above,
+we have a default to the parameter it self, but not the value `foo`. To do this,
+we would have to you destructuring default instead:
+
+```js
+function log({ foo = 42 } = {}) {
+  console.log(foo);
+}
+log(); //=> 42
+```
+
+So here we have a default parameter (empty object) and default value on property
+`foo` if it doesn't have any value.
+
 Read more about
 [destructuring and all possibilities in this gist](https://gist.github.com/mikaelbr/9900818).
 
@@ -409,6 +454,6 @@ parameters and with an explicit API we should do that. This means not relying on
 through arguments we should have separate functions with separate names being
 more explicit with the use case. It's how ever, cases where things like checking
 argument count and argument types makes sense. When making functions, in any
-language, thin about the consumer of the function. Think about the invocation
+language, think about the consumer of the function. Think about the invocation
 site. What makes more sense for using it. Optimising for terseness and overly
 dehydrated, DRY, functions will make our code harder to understand.
