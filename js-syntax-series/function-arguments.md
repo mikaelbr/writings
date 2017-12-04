@@ -8,16 +8,15 @@ to know about function arguments and then some.
 
 ## Argument or Parameter?
 
-First let's get some terms out of the way. What is actually the difference
-between arguments and parameters? Often these terms are used interchangably.
-There's no need to destinguish between them, but we'll cover it here for
-completness. As with all terms it may help you relay information in a more
-consise manner, given that the person you are talking to also have the same
-understanding of the terms.
+First let's get some terms out of the way. What is the difference between
+arguments and parameters? We often use these terms interchangably. There's no
+need to destinguish between them, but we'll cover it here for completness. As
+with all terms it may help us relay information precisely, given that the person
+we're talking to also have the same understanding of the terms.
 
-An argument is something you pass into a function, while parameters is something
-a function has. When invoking a function you give it values as arguments, but
-when you access the values again they're parameters.
+An argument is something we pass into a function, while parameters is something
+a function has. When invoking a function we give it values as arguments, but
+when we access the values again they're parameters.
 
 ```js
 // Defining function (parameters)
@@ -29,20 +28,21 @@ function add(myParameter1, myParamter2) {
 add(argument1, argument2);
 ```
 
-Not a huge difference, but it might be helpful to know if you ever want to
+Not a huge difference, but it might be helpful to know if we ever want to
 express something like "how about renaming the parameters" in a code review.
 
 ## Natural Born Dynamic Arguments
 
-Function overloading is the act of defining multiple functions with the same
-name but different parameter lists and the language chosing what function to use
-based on arguments when invoking. JavaScript is a dynamic language. As such it
-doesn't have function overloading. This is as function overloading would require
-a more stricter type system for it to resolve what functions to use (there are
-types in JavaScript, but not a strict language). But JavaScript plays on the
-strength of being dynamic and allows you, for good and for bad, to take in what
-ever arguments you want. Arguments in JavaScript is by nature dynamic where you
-can pass in what ever amount of arguments you want:
+Function overloading is the act of defining multiple functions/methods with the
+same name but different parameter lists, and making the language chose what
+function to use based on arguments when invoking. JavaScript is a dynamic
+language. As such, it doesn't have function overloading in the traditional
+static programming language way you might be used to. This is as function
+overloading would require a more stricter type system for it to resolve what
+functions to use (there are types in JavaScript, but not a strict language).
+JavaScript plays on the strength of being dynamic and allows us, for good and
+for bad, take in what ever arguments we want. Arguments in JavaScript are by
+nature dynamic, and we can pass in what ever amount of arguments we want:
 
 ```js
 function fn(arg1, arg2, arg3) {
@@ -70,15 +70,16 @@ function fn(arg1, arg2, arg3) {
 
 We could make this into a pattern if we wanted and call it something fancy, but
 essentially we have a overloaded function, as we do different actions based on
-different function signature.
+different function signatures.
 
 ## Magic Argument XXL
 
 In JavaScript there are a couple of globally defined helper variables. For
-instance in browser environment we have `window` and `document`. There's also a
-variable that is automatically and contextually created: `arguments`. If you
-refer to the variable `arguments` inside a normal function (non-arrow function,
-see below) it's populated with data passed to the function:
+instance in browser environment we have `window` and `document` or in Node.js we
+have `global` or `process`. There's also a variable that is automatically and
+contextually created: `arguments`. If we refer to the variable `arguments`
+inside a normal function (non-arrow function, see below) it's populated with
+data passed to the function:
 
 ```js
 function logAll(/* no explicit parameters */) {
@@ -94,14 +95,15 @@ logAll(1, 2, 3, 4);
 ```
 
 And by doing this we see what the `arguments` variable is all about. It's a list
-of all **arguments**. Not parameters. But actual values passed to the function.
-You see there are no parameters to the function `logAll`, but there are
+of **all arguments**. Not parameters. But actual values passed to the function.
+We see there are no parameters to the function `logAll`, but there are four
 arguments.
 
-This object is an Array like object similar to say NodeList in the browser. It's
-not quite an array, but behaves in many ways like an array. So we could iterate
-over the values as seen above, but there are some limitations. For instance, it
-doesn't inherit the Array prototype. This means we can't do things like:
+This magically created `arguments` object is an Array-like object, similar to
+say `NodeList` in the browser. It's not quite an array, but behaves in many ways
+like an array. We could iterate over the values as seen above, but there are
+some limitations. For instance, it doesn't inherit the Array prototype. This
+means we can't do things like:
 
 ```js
 function logEven(/* no explicit parameters */) {
@@ -114,8 +116,8 @@ logEven(1, 2, 3, 4);
 // TypeError: arguments.filter is not a function
 ```
 
-We have to convert `arguments` into an array. We can do this in one easy step,
-by using `Array.from`:
+We have to convert `arguments` into an array by using a function defined on the
+`Array` type object, `Array.from`:
 
 ```js
 function logEven(/* no explicit parameters */) {
@@ -129,10 +131,10 @@ logEven(1, 2, 3, 4);
 //=> 4
 ```
 
-We use `Array.from` to convert the array like object to an actual array. Arrays
-in JavaScript are actually a form of iterable objects, and you could implement
-your own type, as with NodeList and `arguments`. The `arguments` variable also
-has a property, `callee`, that refers to the executing function.
+We use `Array.from` to convert the `Array`-like objects to an actual arrays.
+Arrays in JavaScript are a form of iterable objects, and we could implement our
+own type, as with `NodeList` and `arguments`. The `arguments` variable also has
+a property, `callee`, that refers to the executing function.
 
 It also seems mutating the magic `arguments` value, causes parameter variables
 to change. Avoid this, as it would be very surprising in most cases.
@@ -164,16 +166,16 @@ logEven(1, 2, 3, 4);
 ```
 
 This isn't much of a problem in practise though, for instead of the implicit
-automatically populated `arguments`, you can use rest values.
+automatically populated `arguments`, we can use rest values.
 
 ## All About the Rest
 
-Instead of using the somewhat mystic `arguments` variable you can use a more
+Instead of using the somewhat mystic `arguments` variable we can use a more
 explicit alternative. One that is a pattern in other places in the JavaScript
-langauge also: rest. This is a syntactic extension for collecting all tailing
-values of something. For instance, it's used in
+langauge also: `rest`. This is a syntactic extension for collecting all tailing
+values of _something_. For instance, it's used in
 [destructuring lists](https://gist.github.com/mikaelbr/9900818). For functions
-it can look like this:
+it can look like:
 
 ```js
 function logAll(...args) {
@@ -189,10 +191,10 @@ logAll(1, 2, 3, 4);
 ```
 
 Here we say collect all arguments to this array `args`. And this is an actual
-array. Not an array-like object, but an actual array. We can iterate it, and it
-has `filter` as it's attached to the Array prototype. In the example above we do
-the entire argument list, but we can cherry pick parameters from the start of
-the signature:
+`Array`. Not an `Array`-like object, but an actual `Array`. We can iterate it,
+and it has `filter` as it's attached to the Array prototype. In the example
+above we do the entire argument list, but we can cherry pick parameters from the
+start of the signature:
 
 ```js
 function logAll(prefix, ...args) {
@@ -208,16 +210,17 @@ of the arguments in the list `args`. We could name `args` what ever we want.
 Like `tail` or
 `thisIsATotallyIrretatinglyLongNameForAllOtherArgumentsExceptTheFirstOne`.
 
-You can't do it the other way around. You can't collect all except the last
-value. That is illigal JavaScript syntax and would cause a syntax error.
+We can't do it the other way around. We can't collect all except the last value.
+That is illigal JavaScript syntax and would cause a syntax error.
 
 ```js
 function logAll (...args, suffix) { }
 // SyntaxError: parameter after rest parameter
 ```
 
-You can do the opposite in argument position. Instead of collecting rest, you
-can spread to parameters. With the same syntax, but in argument position:
+While in the parameter list we do rest, spread is used in argument position.
+With the same syntax extension, we can take an `Array`-like structure and apply
+them to a function as if they where indevidual arguments.
 
 ```js
 function logAll(a, b, c, d) {
@@ -240,11 +243,11 @@ This will make all items in `myArray` arguments to `logAll`, binding `a` to `1`,
 
 In parameter position it's called rest, in argument position, spread.
 
-## Default Arguments
+## Default Parameters
 
-Traditionally, in JavaScripit you would do a similar effect to the overloading
-from the first chapter to do default arguments. Checking if an argument's
-undefined, and act accordingly. Something like
+Traditionally, in JavaScripit we would do a similar effect to the overloading
+from the first chapter to do default parameters. Checking if an parameter's
+`undefined`, and act accordingly.
 
 ```js
 function foo(a, callback) {
@@ -257,9 +260,10 @@ function foo(a, callback) {
 foo(42);
 ```
 
-When the parameter list grow and you have several optional parameters, this
-becomes tedious. You should probably not have too many parameters, but that's a
-different discussion. Now you can use default parameters to simplify this code:
+When the parameter list grows and we have several optional parameters, this
+becomes tedious and hard to read and maintain. We should probably not have too
+many parameters, but that's a different discussion. We can use default
+parameters to simplify this code:
 
 ```js
 function foo(a, callback = function() {}) {
@@ -268,7 +272,7 @@ function foo(a, callback = function() {}) {
 foo(42);
 ```
 
-You can have several default arguments, in any order. But defaults get set only
+We can have several default parameters, in any order. But defaults get set only
 when the argument is `undefined`. Not `null` or other falsy values, but strictly
 `undefined`.
 
@@ -277,10 +281,12 @@ function foo(a, callback = function() {}, b) {
   console.log(callback);
 }
 foo(42, null); //=> null
+foo(42, false); //=> false
+foo(42); //=> function
 ```
 
-Default arguments doesn't have to be created inline. You can refer to variables
-defined in a outer scope. Like constants.
+Default parameters doesn't have to be created inline. We can refer to variables
+defined in a outer scopea nd use all types of expressions. Like constants.
 
 ```js
 // Some configuration
@@ -291,8 +297,8 @@ function delay(fn, time = DEFAULT_TIMEOUT) {
 }
 ```
 
-Arguments are executed from left to right, meaning parameters can refer to other
-parameters to the left:
+Arguments are executed from left to right and _evaluated at call time_. Firstly,
+this means parameters can refer to other parameters to the left:
 
 ```js
 function foo(a, b = a.foo) {
@@ -302,11 +308,10 @@ foo({ foo: 42 }); //=> 42
 ```
 
 In this case `a` will shadow any other defined variables defined in an outer
-scope. You could also refer to the function itself in cases you want to do
+scope. We could also refer to the function itself in cases we wanted to do
 recursion with overridable passed in function.
 
-Another useful thing to know about default arguments is you can do inline
-function invokation:
+But this also means we can do inline function calls:
 
 ```js
 const create42 = () => 42;
@@ -317,9 +322,9 @@ foo(); //=> 42
 ```
 
 This isn't the same as invoking it outside the parameter list and refering to
-the value such, but the function `create42` is only ever invoked if an argument
-isn't passed to the function. We can prove this by doing logging a comment
-inside `create42`:
+the value, but the function `create42` is only ever invoked if an argument isn't
+passed to the function. This is where the call time evaluation plays a part. We
+can prove this by doing logging a comment inside `create42`:
 
 ```js
 function create42() {
@@ -331,35 +336,72 @@ foo(); // Logs 'invoked'
 foo(50); // Logs nothing
 ```
 
-This allows you to do some fun things as creating required parameters:
+Now this can be powerful as we can create objects every time we invoke a
+function, avoiding shared state between the functions, but it can also mean
+potential performance hits. Also, we can't declare variables or functions inside
+the function body with the same name as the function called in the parameter
+list. This would cause a `ReferenceError`.
+
+But it allows us to do fun things, as creating required parameters:
 
 ```js
 function required(a, fn) {
-  throw new Error(`Argument ${a} in ${fn.name} is required`);
+  throw new TypeError(`Argument ${a} in ${fn.name} is required`);
 }
 function foo(a = required('a', foo)) {}
-foo(); // Error
+foo(); // TypeError
 foo(42); // No Error
 ```
+
+## Destructuring Paramters
+
+Variables in parameters can be treated as any other values. This means we can
+destructure the information passed as arguments. When destructuring we can do:
+
+```js
+function log(obj) {
+  const { foo } = obj;
+  console.log(foo);
+}
+log({ foo: 42 });
+```
+
+Where we unpack `foo` from the object passed in as argument and used as
+parameter inside the `log` function body. The `obj` parameter also refers to the
+same value, so we can move the destructuring to be inlined in the parameter
+list.
+
+```js
+function log({ foo }) {
+  console.log(foo);
+}
+log({ foo: 42 });
+```
+
+This means in many ways we can have named arguments. And named arguments can in
+many cases be preferred over regular parameter lists as they are easier to
+change and refactor. The downside is to pack/unpack objects everytime we invoke
+a function.
+
+Read more about
+[destructuring and all posibilities in this gist](https://gist.github.com/mikaelbr/9900818).
 
 ## Conclusion
 
 The dynamic nature of JavaScript makes arguments and parameter for an
-interesting case. You can pass in what ever values you want and it's up to the
-function to handle what it. You could either fail horribly or handle it in a
-different way. It's up to you and what is best for the problem you're solving.
-In some cases this dynamic nature is an advantage of flexibility. In other cases
-it can be a footgun where it causes errors in your code. The important part is
-knowing how it works so you can choose what approach is best and be able to
-understand how to handle the code.
+interesting case. We can pass in what ever values we want and it's up to the
+function to handle what it. We could either fail horribly or handle it in a
+different way. It's up to us to deside what is best for the problem we're
+solving. In some cases this dynamic nature is an advantage of flexibility. In
+other cases it can be a footgun where it causes errors in our code. The
+important part is knowing how it works so we can choose what approach is best.
 
-Explicit is almost always better than implicit. If you can explicitly define
-your parameters and with an explicit API you should do that. This means not
-relying on `arguments` variable, but using rest, and instead of overloading
-functions through arguments you should have separate functions with separate
-names being more explicit with the use case. It's how ever, cases where things
-like checking argument count and argument types makes sense. When making
-functions, in any language, thin about the consumer of the function. Think about
-the invokation site. What makes more sense for using it. Optimizing for
-terseness and overly dehydrated, DRY, functions will make your code harder to
-understand.
+Explicit is almost always better than implicit. If we can explicitly define our
+parameters and with an explicit API we should do that. This means not relying on
+`arguments` variable, but using rest, and instead of overloading functions
+through arguments we should have separate functions with separate names being
+more explicit with the use case. It's how ever, cases where things like checking
+argument count and argument types makes sense. When making functions, in any
+language, thin about the consumer of the function. Think about the invokation
+site. What makes more sense for using it. Optimizing for terseness and overly
+dehydrated, DRY, functions will make our code harder to understand.
